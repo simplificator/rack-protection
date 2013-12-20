@@ -16,6 +16,7 @@ module Rack
     autoload :RemoteToken,       'rack/protection/remote_token'
     autoload :SessionHijacking,  'rack/protection/session_hijacking'
     autoload :XSSHeader,         'rack/protection/xss_header'
+    autoload :UserAgent,         'rack/protection/user_agent'
 
     def self.new(app, options = {})
       # does not include: RemoteReferrer, AuthenticityToken and FormToken
@@ -33,6 +34,8 @@ module Rack
         use ::Rack::Protection::RemoteToken,      options unless except.include? :remote_token
         use ::Rack::Protection::SessionHijacking, options unless except.include? :session_hijacking
         use ::Rack::Protection::XSSHeader,        options unless except.include? :xss_header
+        use ::Rack::Protection::UserAgent,        options unless except.include? :user_agent
+
         run app
       end.to_app
     end
